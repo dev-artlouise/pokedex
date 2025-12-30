@@ -11,11 +11,13 @@ export const fetchPokemonList = async (
 ): Promise<PokemonListResponse> => {
   const limit = 20;
   const offset = page * limit;
+  console.log("page", page);
+  console.log("offset value", offset);
   const { data } = await api.get<PokemonListResponse>(
     `pokemon?limit=${limit}&offset=${offset}`
   );
 
-  console.log("pokemon data", data);
+  // console.log("pokemon data", data);
 
   return data;
 };
