@@ -15,10 +15,36 @@ export interface PokemonDetails {
   weight: number;
   sprites: {
     front_default: string;
+    other: {
+      "official-artwork": {
+        front_default: string;
+      };
+    };
   };
   types: {
     slot: number;
     type: {
+      name: string;
+    };
+  }[];
+}
+
+export interface PokemonSpecies {
+  id: number;
+  flavor_text_entries: {
+    flavor_text: string;
+    language: { name: string };
+    version: { name: string };
+  }[];
+  pokedex_numbers: {
+    entry_number: number;
+    pokedex: {
+      name: string;
+    };
+  }[];
+  genera: {
+    genus: string;
+    language: {
       name: string;
     };
   }[];

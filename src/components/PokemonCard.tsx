@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { usePokemonDetails } from "../hooks/usePokemonDetails";
 import { typeColors } from "../utils/typeColors";
+import PokemonModal from "./PokemonModal";
 
 interface PokemonCardProps {
   pokemon: { name: string };
 }
 
 const PokemonCard = ({ pokemon }: PokemonCardProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { data, isLoading, isError } = usePokemonDetails(pokemon);
 
   if (isLoading) return <div className="border p-4">Loading...</div>;
@@ -15,7 +19,10 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const { name, sprites, types } = data;
 
   return (
-    <div className="border rounded-lg p-4 text-center hover:shadow-lg hover:scale-105 transition-transform duration-200">
+    <div
+      onClick={() => setIsModalOpen(true)}
+      className="border rounded-lg p-4 text-center hover:shadow-lg hover:scale-105 transition-transform duration-200"
+    >
       <img
         src={sprites.front_default}
         alt={`${name}-sprite`}
@@ -34,6 +41,11 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
           </span>
         ))}
       </div>
+      <PokemonModal
+        pokemon={data}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
