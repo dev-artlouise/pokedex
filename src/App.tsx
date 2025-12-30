@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import PokemonCard from "./components/PokemonCard";
+import type { PokemonDetails } from "./types/pokemon";
+import { usePokemonList } from "./hooks/usePokemonList";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [page, setPage] = useState(0);
+  const { data, isLoading, isError } = usePokemonList(page);
+
+  if (isLoading) return <div>loading ...</div>;
+  if (isError) return <div>Error loading Pokemon</div>;
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <main className="min-h-screen px-6 py-8">
+        <h1 className="text-3xl font-bold mb-6">Pokedex</h1>
+        {data?.results.map((pokemon) => (
+          <PokemonCard key={pokemon.name} pokemon={pokemon} />
+        ))}
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
